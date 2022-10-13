@@ -246,7 +246,7 @@ namespace SimpleProviderManaged
 
         public static string TryGetPathRelativeToRoot(string root, string path, bool isPathToADirectory)
         {
-            const Int32 MaxPath = 260;
+            const int MaxPath = 260;
             StringBuilder relativePathBuilder = new StringBuilder(MaxPath);
 
             string pathFrom;

@@ -3,7 +3,6 @@
 
 using Microsoft.Windows.ProjFS;
 using Serilog;
-using System;
 using System.Collections.Generic;
 
 namespace SimpleProviderManaged

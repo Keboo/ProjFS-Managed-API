@@ -7,7 +7,7 @@ using Microsoft.Windows.ProjFS;
 namespace SimpleProviderManaged
 {
     /// <summary>
-    /// Implements IComparer using <see cref="Microsoft.Windows.ProjFS.Utils.FileNameCompare(string, string)"/>.
+    /// Implements IComparer using <see cref="Utils.FileNameCompare(string, string)"/>.
     /// </summary>
     internal class ProjFSSorter : Comparer<string>
     {
