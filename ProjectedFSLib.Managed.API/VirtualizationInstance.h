@@ -110,6 +110,15 @@ namespace ProjFS {
             System::Collections::Generic::IReadOnlyCollection<NotificationMapping^>^ notificationMappings
         );
 
+        /// <summary>
+        /// Returns the virtualization root path.
+        /// </summary>
+        /// <remarks>This is the same virtualization root path that was passed into the constructor.</remarks>
+        virtual property System::IO::DirectoryInfo^ VirtualizationRootPath
+        {
+            DirectoryInfo^ get(void) sealed;
+        };
+		
 #pragma region Callback properties
 
         /// <summary>
@@ -610,7 +619,7 @@ namespace ProjFS {
         ///     </para>
         ///     <para>
         ///     For example, if <see cref="IRequiredCallbacks::GetPlaceholderInfoCallback"/> specifies
-        ///     <c>dir1\dir1\FILE.TXT</c> in <c>relativePath</c>, and the provider’s backing store contains
+        ///     <c>dir1\dir1\FILE.TXT</c> in <c>relativePath</c>, and the providerï¿½s backing store contains
         ///     a file called <c>File.txt</c> in the <c>dir1\dir2</c> directory, and <see cref="Utils::FileNameCompare"/>
         ///     returns 0 when comparing the names <c>FILE.TXT</c> and <c>File.txt</c>, then the provider
         ///     specifies <c>dir1\dir2\File.txt</c> as the value of this parameter.
@@ -707,7 +716,7 @@ namespace ProjFS {
         ///     </para>
         ///     <para>
         ///     For example, if <see cref="IRequiredCallbacks::GetPlaceholderInfoCallback"/> specifies
-        ///     <c>dir1\dir1\FILE.TXT</c> in <c>relativePath</c>, and the provider’s backing store contains
+        ///     <c>dir1\dir1\FILE.TXT</c> in <c>relativePath</c>, and the providerï¿½s backing store contains
         ///     a file called <c>File.txt</c> in the <c>dir1\dir2</c> directory, and <see cref="Utils::FileNameCompare"/>
         ///     returns 0 when comparing the names <c>FILE.TXT</c> and <c>File.txt</c>, then the provider
         ///     specifies <c>dir1\dir2\File.txt</c> as the value of this parameter.
@@ -1205,6 +1214,7 @@ namespace ProjFS {
 
         // Values provided by the constructor.
         System::String^ m_virtualizationRootPath;
+		System::IO::DirectoryInfo^ m_directoryVirtualizationRootPath;
         unsigned int m_poolThreadCount;
         unsigned int m_concurrentThreadCount;
         bool m_enableNegativePathCache;

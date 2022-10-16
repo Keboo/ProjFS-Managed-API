@@ -177,13 +177,13 @@ VirtualizationInstance::VirtualizationInstance(
     // We need the root path in a form usable by native code.
     pin_ptr<const WCHAR> rootPath = PtrToStringChars(m_virtualizationRootPath);
 
-    DirectoryInfo^ dirInfo = gcnew DirectoryInfo(m_virtualizationRootPath);
+    m_directoryVirtualizationRootPath = gcnew DirectoryInfo(m_virtualizationRootPath);
     System::Guid virtualizationInstanceID;
-    if (!dirInfo->Exists)
+    if (!m_directoryVirtualizationRootPath->Exists)
     {
         // Generate a new instance ID and create the root.  We'll mark it later.
         virtualizationInstanceID = Guid::NewGuid();
-        dirInfo->Create();
+        m_directoryVirtualizationRootPath->Create();
 
         markAsRoot = true;
     }
@@ -271,6 +271,11 @@ VirtualizationInstance::VirtualizationInstance(
                                                              m_virtualizationRootPath));
         }
     }
+}
+
+System::IO::DirectoryInfo^ VirtualizationInstance::VirtualizationRootPath::get(void)
+{
+    return m_directoryVirtualizationRootPath;
 }
 
 #pragma region Callback properties
