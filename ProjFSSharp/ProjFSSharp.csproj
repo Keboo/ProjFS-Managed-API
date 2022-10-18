@@ -1,14 +1,20 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+	</PropertyGroup>
 
-  <ItemGroup>
+	<ItemGroup>
+		<Reference Include="ProjectedFSLib.Managed">
+			<HintPath>..\BuildOutput\ProjectedFSLib.Managed.NetCore\bin\x64\Debug\ProjectedFSLib.Managed.dll</HintPath>
+		</Reference>
+	</ItemGroup>
+
+	<!--<ItemGroup>
     <ProjectReference Include="..\ProjectedFSLib.Managed.API\NetCore\ProjectedFSLib.Managed.NetCore.vcxproj" />
-  </ItemGroup>
+  </ItemGroup>-->
 
 </Project>
