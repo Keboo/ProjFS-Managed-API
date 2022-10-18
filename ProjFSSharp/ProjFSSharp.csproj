@@ -8,13 +8,18 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<Reference Include="ProjectedFSLib.Managed">
-			<HintPath>..\BuildOutput\ProjectedFSLib.Managed.NetCore\bin\x64\Debug\ProjectedFSLib.Managed.dll</HintPath>
+		<Reference Include="ProjectedFSLib.Managed" Pack="true" PackagePath="tools\">
+			<HintPath>..\BuildOutput\ProjectedFSLib.Managed.NetCore\bin\x64\$(Configuration)\ProjectedFSLib.Managed.dll</HintPath>
 		</Reference>
 	</ItemGroup>
 
 	<!--<ItemGroup>
-    <ProjectReference Include="..\ProjectedFSLib.Managed.API\NetCore\ProjectedFSLib.Managed.NetCore.vcxproj" />
-  </ItemGroup>-->
+		<ProjectReference Include="..\ProjectedFSLib.Managed.API\NetCore\ProjectedFSLib.Managed.NetCore.vcxproj" />
+	</ItemGroup>-->
+
+	<ItemGroup>
+		<None Include="..\BuildOutput\ProjectedFSLib.Managed.NetCore\bin\x64\$(Configuration)\ProjectedFSLib*.dll" Pack="true" PackagePath="lib/net6.0" />
+		<None Include="..\BuildOutput\ProjectedFSLib.Managed.NetCore\bin\x64\$(Configuration)\ProjectedFSLib*.pdb" Pack="true" PackagePath="lib/net6.0" />
+	</ItemGroup>
 
 </Project>
