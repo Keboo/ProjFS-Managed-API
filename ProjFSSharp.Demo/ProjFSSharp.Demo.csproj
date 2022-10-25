@@ -17,6 +17,7 @@
 	</ItemGroup>-->
 
 	<ItemGroup>
+		<ProjectReference Include="..\ProjectedFSLib.Managed.API\NetCore\ProjectedFSLib.Managed.NetCore.vcxproj" />
 		<ProjectReference Include="..\ProjFSSharp\ProjFSSharp.csproj" />
 	</ItemGroup>
 
