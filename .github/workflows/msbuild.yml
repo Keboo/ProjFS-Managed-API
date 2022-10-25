@@ -40,8 +40,8 @@ jobs:
 
     - name: Build
       working-directory: ${{env.GITHUB_WORKSPACE}}
-      run: msbuild /m /p:Configuration=${{env.BUILD_CONFIGURATION}} ${{env.SOLUTION_FILE_PATH}}
+      run: msbuild /p:Configuration=${{env.BUILD_CONFIGURATION}} ${{env.SOLUTION_FILE_PATH}}
 
-    - name: Build
+    - name: Pack
       working-directory: ${{env.GITHUB_WORKSPACE}}/ProjFSSharp
       run: dotnet pack ProjFSSharp\ProjFSSharp.csproj -c ${{env.BUILD_CONFIGURATION}} --no-build
