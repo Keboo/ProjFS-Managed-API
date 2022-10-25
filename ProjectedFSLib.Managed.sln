@@ -23,6 +23,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{80F7
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProjFSSharp", "ProjFSSharp\ProjFSSharp.csproj", "{B5F0E54B-0DA0-4C5F-86A3-CD1FFA44ACE7}"
+	ProjectSection(ProjectDependencies) = postProject
+		{D29E5723-25E6-41C7-AEB9-099CDE30538A} = {D29E5723-25E6-41C7-AEB9-099CDE30538A}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProjFSSharp.Demo", "ProjFSSharp.Demo\ProjFSSharp.Demo.csproj", "{F9779827-DF72-4777-8C73-B70D05EE695A}"
 EndProject
