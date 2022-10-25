@@ -44,4 +44,4 @@ jobs:
 
     - name: Pack
       working-directory: ${{env.GITHUB_WORKSPACE}}/ProjFSSharp
-      run: dotnet pack ProjFSSharp\ProjFSSharp.csproj -c ${{env.BUILD_CONFIGURATION}} --no-build
+      run: dotnet pack ProjFSSharp.csproj -c ${{env.BUILD_CONFIGURATION}} --no-build
