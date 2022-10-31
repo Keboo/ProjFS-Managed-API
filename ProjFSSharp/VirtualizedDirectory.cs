@@ -17,7 +17,6 @@ public abstract class VirtualizedDirectory : IDisposable
         TargetDirectory = targetDirectory ?? throw new ArgumentNullException(nameof(targetDirectory));
     }
 
-
     public void Start()
     {
         List<NotificationMapping> notifications = new();
@@ -38,7 +37,7 @@ public abstract class VirtualizedDirectory : IDisposable
                 | NotificationType.FilePreConvertToFull,
             rootName)
         );
-        
+
         VirtualizationInstance virtualizationInstance = _VirtualizationInstance = new(
             virtualizationRootPath: TargetDirectory,
             poolThreadCount: 0,
@@ -78,15 +77,8 @@ public abstract class VirtualizedDirectory : IDisposable
 
     protected abstract IProjectedFileInfo? GetFileInfo(string relativePath);
 
-    protected virtual string GetFullPathInLayer(string relativePath) 
+    protected virtual string GetFullPathInLayer(string relativePath)
         => Path.GetFullPath(relativePath, TargetDirectory);
-
-    // // TODO: override finalizer only if 'Dispose(bool disposing)' has code to free unmanaged resources
-    // ~VirtualizedDirectory()
-    // {
-    //     // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
-    //     Dispose(disposing: false);
-    // }
 
     void IDisposable.Dispose()
     {
@@ -95,11 +87,50 @@ public abstract class VirtualizedDirectory : IDisposable
         GC.SuppressFinalize(this);
     }
 
+    public virtual IProjectedFileInfo CreateDirectoryInfo(string relativePath,
+        DateTime? creationTime = null,
+        DateTime? lastAccessTime =  null,
+        DateTime? lastWriteTime = null,
+        DateTime? changeTime = null,
+        FileAttributes? attributes = null)
+    {
+        return new ProjectedFileInfo(
+                    Path.GetFileName(relativePath),
+                    GetFullPathInLayer(relativePath),
+                    size: 0,
+                    isDirectory: true,
+                    creationTime: creationTime ?? DateTime.UtcNow,
+                    lastAccessTime: lastAccessTime ?? DateTime.UtcNow,
+                    lastWriteTime: lastWriteTime ?? DateTime.UtcNow,
+                    changeTime: changeTime ?? DateTime.UtcNow,
+                    attributes: attributes ?? FileAttributes.Directory);
+    }
+
+    public virtual IProjectedFileInfo CreateFileInfo(string relativePath,
+        long size = 0,
+        DateTime? creationTime = null,
+        DateTime? lastAccessTime = null,
+        DateTime? lastWriteTime = null,
+        DateTime? changeTime = null,
+        FileAttributes? attributes = null)
+    {
+        return new ProjectedFileInfo(
+                    Path.GetFileName(relativePath),
+                    GetFullPathInLayer(relativePath),
+                    size: size,
+                    isDirectory: false,
+                    creationTime: creationTime ?? DateTime.UtcNow,
+                    lastAccessTime: lastAccessTime ?? DateTime.UtcNow,
+                    lastWriteTime: lastWriteTime ?? DateTime.UtcNow,
+                    changeTime: changeTime ?? DateTime.UtcNow,
+                    attributes: attributes ?? FileAttributes.Normal);
+    }
+
     private class CallbackWrapper : BaseRequiredCallbacks
     {
         public CallbackWrapper(
             VirtualizedDirectory directory,
-            VirtualizationInstance virtualizationInstance) 
+            VirtualizationInstance virtualizationInstance)
             : base(virtualizationInstance)
         {
             Directory = directory;
@@ -142,5 +173,5 @@ public abstract class VirtualizedDirectory : IDisposable
 
 public record class VirtualizedDirectoryOptions
 {
-    
+
 }

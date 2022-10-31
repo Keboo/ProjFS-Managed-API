@@ -1,8 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+using System.Diagnostics;
+
 namespace ProjFSSharp;
 
+[DebuggerDisplay($"{{{nameof(FullName)}}}")]
 public class ProjectedFileInfo : IProjectedFileInfo
 {
     public ProjectedFileInfo(

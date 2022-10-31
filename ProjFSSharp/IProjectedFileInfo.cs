@@ -5,9 +5,8 @@ namespace ProjFSSharp;
 
 public interface IProjectedFileInfo
 {
-
-    public bool IsDirectory { get; }
-    public FileAttributes Attributes { get; }
+    bool IsDirectory { get; }
+    FileAttributes Attributes { get; }
     string Name { get; }
     string FullName { get; }
     DateTime CreationTime { get; }

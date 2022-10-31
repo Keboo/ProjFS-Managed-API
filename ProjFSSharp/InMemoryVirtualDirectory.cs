@@ -2,9 +2,7 @@
 
 public class InMemoryVirtualDirectory : VirtualizedDirectory
 {
-    private record class Item(string Root, List<Item> Children);
-
-    private List<Item> ItemsDirectories { get; } = new();
+    private IList<IProjectedFileInfo> Items { get; } = new List<IProjectedFileInfo>();
 
     public InMemoryVirtualDirectory()
         : base(Path.GetFullPath(Path.GetRandomFileName()))
@@ -14,26 +12,28 @@ public class InMemoryVirtualDirectory : VirtualizedDirectory
 
     protected override IDirectoryEnumerator GetFileSystemEntries(string relativePath)
     {
-        List<IProjectedFileInfo> items = new();
-
-        foreach (string directory in Directories)
-        {
-            items.Add(CreateDirectoryInfo(directory));
-        }
-
+        string fullPath = GetFullPathInLayer(relativePath);
+        var items = Items.Where(i => Path.GetDirectoryName(i.FullName) == fullPath).ToList();
         return new SimpleDirectoryEnumerator(items);
     }
 
-    public void AddDirectory(string relativeDirectoryPath)
+    public void AddDirectory(string relativePath)
+        => AddDirectory(CreateDirectoryInfo(relativePath));
+
+    public void AddDirectory(IProjectedFileInfo directory)
     {
-        Directories.Add(relativeDirectoryPath);
+        if (!directory.IsDirectory)
+        {
+            throw new ArgumentException("The provided IProjectedFileInfo is not a directory.", nameof(directory));
+        }
+        Items.Add(directory);
     }
 
     protected override IProjectedFileInfo? GetFileInfo(string relativePath)
     {
-        return Directories.Where(x => x.Equals(relativePath))
-            .Select(x => CreateDirectoryInfo(x))
-            .FirstOrDefault();
+        string fullPath = GetFullPathInLayer(relativePath);
+
+        return Items.FirstOrDefault(x => x.FullName == fullPath);
     }
 
     private IProjectedFileInfo CreateDirectoryInfo(string relativePath)
