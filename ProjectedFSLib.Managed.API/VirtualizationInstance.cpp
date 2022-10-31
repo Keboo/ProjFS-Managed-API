@@ -459,6 +459,9 @@ HResult VirtualizationInstance::StartVirtualizing(IRequiredCallbacks^ requiredCa
         return HResult::AlreadyInitialized;
     }
 
+    //Ensure root directory exists
+    m_directoryVirtualizationRootPath->Create();
+
     // Store the provider's implementation of the required callbacks.
     m_requiredCallbacks = requiredCallbacks;
 
@@ -733,7 +736,7 @@ void VirtualizationInstance::StopVirtualizing()
     if (SUCCEEDED(hr))
     {
         m_virtualizationContext = nullptr;
-
+        m_directoryVirtualizationRootPath->Delete(true);
         delete m_virtualizationContextGc;
         m_virtualizationContextGc = nullptr;
     }

@@ -14,9 +14,9 @@ public class DirectoryRequiredCallbacks : BaseRequiredCallbacks
         SourceDirectory = sourceDirectory ?? throw new ArgumentNullException(nameof(sourceDirectory));
     }
 
-    protected override HResult TryCreateDirectoryEnumeration(int commandId, Guid enumerationId, string relativePath, uint triggeringProcessId, string triggeringProcessImageFileName, out IDirectoryEnumeration enumeration)
+    protected override HResult TryCreateDirectoryEnumeration(int commandId, Guid enumerationId, string relativePath, uint triggeringProcessId, string triggeringProcessImageFileName, out IDirectoryEnumerator enumerator)
     {
-        enumeration = new SimpleDirectoryEnumeration(
+        enumerator = new SimpleDirectoryEnumerator(
             GetChildItemsInLayer(relativePath)
             .OrderBy(file => file.Name, ProjFSSorter.Instance)
             .ToList());
@@ -80,8 +80,7 @@ public class DirectoryRequiredCallbacks : BaseRequiredCallbacks
     }
 
     private static bool FileOrDirectoryExistsInLayer(string layerParentPath, string layerName,
-        [NotNullWhen(true)]
-    out IProjectedFileInfo? fileInfo)
+        [NotNullWhen(true)] out IProjectedFileInfo? fileInfo)
     {
         fileInfo = null;
 

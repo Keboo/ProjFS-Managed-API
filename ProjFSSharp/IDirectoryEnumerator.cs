@@ -1,6 +1,6 @@
 ﻿namespace ProjFSSharp;
 
-public interface IDirectoryEnumeration
+public interface IDirectoryEnumerator
 {
     bool IsCurrentValid { get; }
     IProjectedFileInfo? Current { get; }

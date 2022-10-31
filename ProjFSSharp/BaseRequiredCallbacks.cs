@@ -1,11 +1,11 @@
-﻿using Microsoft.Windows.ProjFS;
+using Microsoft.Windows.ProjFS;
 using System.Collections.Concurrent;
 
 namespace ProjFSSharp;
 
 public abstract class BaseRequiredCallbacks : IRequiredCallbacks
 {
-    protected ConcurrentDictionary<Guid, IDirectoryEnumeration> ActiveEnumerations { get; } = new();
+    protected ConcurrentDictionary<Guid, IDirectoryEnumerator> ActiveEnumerations { get; } = new();
     protected VirtualizationInstance VirtualizationInstance { get; }
     public bool IsSymlinkSupportAvailable { get; protected set; }
 
@@ -28,7 +28,7 @@ public abstract class BaseRequiredCallbacks : IRequiredCallbacks
             relativePath, 
             triggeringProcessId, 
             triggeringProcessImageFileName, 
-            out IDirectoryEnumeration? enumeration);
+            out IDirectoryEnumerator? enumeration);
 
         if (result != HResult.Ok)
         {
@@ -53,7 +53,7 @@ public abstract class BaseRequiredCallbacks : IRequiredCallbacks
         string relativePath,
         uint triggeringProcessId,
         string triggeringProcessImageFileName,
-        out IDirectoryEnumeration enumeration);
+        out IDirectoryEnumerator enumeration);
 
     public virtual HResult GetDirectoryEnumerationCallback(
         int commandId,
@@ -62,7 +62,7 @@ public abstract class BaseRequiredCallbacks : IRequiredCallbacks
         bool restartScan,
         IDirectoryEnumerationResults enumResult)
     {
-        if (!ActiveEnumerations.TryGetValue(enumerationId, out IDirectoryEnumeration? enumeration))
+        if (!ActiveEnumerations.TryGetValue(enumerationId, out IDirectoryEnumerator? enumeration))
         {
             return HResult.InternalError;
         }
@@ -130,7 +130,7 @@ public abstract class BaseRequiredCallbacks : IRequiredCallbacks
     public virtual HResult EndDirectoryEnumerationCallback(
         Guid enumerationId)
     {
-        if (!ActiveEnumerations.TryRemove(enumerationId, out IDirectoryEnumeration? _))
+        if (!ActiveEnumerations.TryRemove(enumerationId, out IDirectoryEnumerator? _))
         {
             return HResult.InternalError;
         }
@@ -172,11 +172,11 @@ public abstract class BaseRequiredCallbacks : IRequiredCallbacks
 
     protected virtual HResult WritePlaceholderInfo(string relativePath, IProjectedFileInfo fileInfo, string? targetPath)
     {
-        string? directoryName = Path.GetDirectoryName(relativePath);
-        if (string.IsNullOrEmpty(directoryName))
-        {
-            return HResult.InternalError;
-        }
+        string directoryName = Path.GetDirectoryName(relativePath) ?? "";
+        //if (string.IsNullOrEmpty(directoryName))
+        //{
+        //    return HResult.InternalError;
+        //}
         if (IsSymlinkSupportAvailable)
         {
             return VirtualizationInstance.WritePlaceholderInfo2(

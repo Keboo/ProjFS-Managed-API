@@ -5,13 +5,13 @@ using Microsoft.Windows.ProjFS;
 
 namespace ProjFSSharp;
 
-internal class SimpleDirectoryEnumeration : IDirectoryEnumeration
+public class SimpleDirectoryEnumerator : IDirectoryEnumerator
 {
     private IEnumerable<IProjectedFileInfo> FileInfos { get; }
     private IEnumerator<IProjectedFileInfo>? FileInfoEnumerator { get; set; }
     private string? FilterString { get; set; }
 
-    public SimpleDirectoryEnumeration(IEnumerable<IProjectedFileInfo> fileInfos)
+    public SimpleDirectoryEnumerator(IEnumerable<IProjectedFileInfo> fileInfos)
     {
         FileInfos = fileInfos ?? throw new ArgumentNullException(nameof(fileInfos));
         ResetEnumerator();
